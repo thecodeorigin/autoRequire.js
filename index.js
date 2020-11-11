@@ -47,3 +47,15 @@ function requireAuto(folderPath) {
 // Promise.resolve(getFilesAsync('./folder1/')).then(result => console.log(result))
 // console.log(getDirectoryTree('./folder1/'))
 // console.log(requireAuto('./folder1/'))
+
+// Using ES6 module
+var something = {}
+const requireModule = require.context('./', true, /\.js$/)
+requireModule.keys().forEach(requireModule)
+requireModule.keys().forEach((fileName) => {
+  if (!fileName.includes('index.js')) {
+    const temp = fileName.replace(/(\.\/|\.js$)/g, '').split('/')
+    const moduleName = temp.length > 1 ? temp[temp.length - 2] : temp[0]
+    something[moduleName] = requireModule(fileName).default
+  }
+})
